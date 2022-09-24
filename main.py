@@ -1,6 +1,7 @@
 # chrome dinosaur game
 import pygame
 import os
+import random
 
 
 pygame.init()
@@ -9,6 +10,8 @@ pygame.init()
 SCREEN_HEIGHT = 600
 SCREEN_WIDTH = 1100
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+GAME_SPEED = 14 
 
 # Images
 # Dinosaur
@@ -52,6 +55,25 @@ OTHER = [
 
 
 # classes --------------------------------------------------------------------------
+
+
+class Cloud:
+    '''clouds are background objects for decoration'''
+    def __init__(self):
+        '''makes new clouds'''
+        self.x = SCREEN_WIDTH + random.randint(800,1000)
+        self.y = random.randint(50, 100)
+        self.image = OTHER[0]
+        self.width = self.image.get_width()
+
+    def update(self):
+        self.x -= GAME_SPEED
+        if self.x < -self.width:
+            self.x = SCREEN_WIDTH + random.randint(2500, 3000)
+            self.y = random.randint(50, 100)
+
+    def draw(self, SCREEN):
+        SCREEN.blit(self.image, (self.x, self.y))
 
 
 class Dinosaur:
@@ -138,6 +160,7 @@ def main():
     runing = True
     clock = pygame.time.Clock()
     player = Dinosaur()
+    cloud = Cloud()
 
     # Game loop
     while runing:
@@ -151,6 +174,9 @@ def main():
 
         player.draw(SCREEN)
         player.update(userInput)
+
+        cloud.draw(SCREEN)
+        cloud.update()
 
         clock.tick(30)
         pygame.display.update()
