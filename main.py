@@ -81,7 +81,7 @@ class Dinosaur:
         if self.duck:
             self.ducking()
         if self.run:
-            self.runing()
+            self.running()
         if self.jump:
             self.jumping()
 
