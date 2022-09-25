@@ -12,6 +12,8 @@ SCREEN_WIDTH = 1100
 SCREEN = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 GAME_SPEED = 14 
+XBG = 0 # background x position
+YBG = 380 # background y position
 
 # Images
 # Dinosaur
@@ -156,6 +158,17 @@ class Dinosaur:
 # functions-----------------------------------------------------------------------------------------
 
 
+def background():
+    global XBG, YBG
+    image_width = OTHER[2].get_width()
+    SCREEN.blit(OTHER[2], (XBG, YBG))
+    SCREEN.blit(OTHER[2], (image_width + XBG, YBG))
+    if XBG <= -image_width:
+        SCREEN.blit(OTHER[2], (image_width + XBG, YBG))
+        XBG = 0 
+    XBG -= GAME_SPEED
+
+
 def main():
     runing = True
     clock = pygame.time.Clock()
@@ -172,9 +185,14 @@ def main():
         SCREEN.fill((255, 255, 255))
         userInput = pygame.key.get_pressed()
 
+        # draws player 
         player.draw(SCREEN)
         player.update(userInput)
 
+        # draws player
+        background()
+
+        # draws cloud
         cloud.draw(SCREEN)
         cloud.update()
 
